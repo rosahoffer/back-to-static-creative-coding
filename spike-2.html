@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/styles/styles.css">
+  <title>Spike 2 - Page Transition</title>
+</head>
+<body>
+  
+  <main>
+    <div class="load">
+      <div class="a2d">
+        <div class="circle" style="--i: 0"></div>
+        <div class="circle" style="--i: 1"></div>
+      </div>
+    </div>
+  </main>
+
+<script src="/scripts/script.js"></script>
+
+<style>
+  
+/* creative coding */
+
+body, div {
+  display: grid;
+}
+
+body {
+  place-content: center;
+  overflow: hidden;
+  margin: 0;
+  height: 100vh;
+  background: pink;
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+div, ::before, ::after {
+  grid-area: 1/1;
+  place-self: center;
+  border-radius: 50%;
+}
+
+.a2d {
+  animation: rotate 3s linear infinite;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.circle {
+  --not-i: calc(1 - var(--i));
+  --sgn-i: calc(2*var(--i) - 1);
+  --full: linear-gradient(currentcolor, currentcolor);
+  margin-top: calc(var(--sgn-i)*2*2.125em);
+  border: solid 1.25em transparent;
+  padding: 0.25em;
+  width: 2.5em;
+  height: 2.5em;
+  transform: rotate(calc(var(--not-i)*.5turn)) scalex(var(--sgn-i));
+  background: var(--full) content-box, conic-gradient(transparent calc(var(--k0)*100%), currentcolor 0% calc(var(--k1)*100%), transparent 0%) border-box;
+  --mask:
+  	var(--full) content-box,
+  	var(--full) padding-box,
+  	var(--full);
+  -webkit-mask: var(--mask);
+  -webkit-mask-composite: xor;
+  mask: var(--mask);
+  mask-composite: exclude;
+  animation: a 1.5s linear calc(var(--not-i)*-.5*1.5s) infinite;
+  animation-name: k0, k1;
+}
+
+.circle::before, .circle::after {
+  width: 1.25em;
+  height: 1.25em;
+  transform: rotate(calc(var(--k, var(--k0, 0))*1turn)) translatey(-2.125em);
+  background: currentcolor;
+  content: "";
+}
+
+.circle::after {
+  --k: var(--k1, .35) ;
+}
+
+@keyframes k0 {
+  0%, 25% {
+    --k0: 0 ;
+  }
+  50% {
+    --k0: 0.65 ;
+  }
+  75%, 100% {
+    --k0: 1 ;
+  }
+}
+
+@keyframes k1 {
+  0% {
+    --k1: 0 ;
+  }
+  25% {
+    --k1: 0.35 ;
+  }
+  50%, 100% {
+    --k1: 1 ;
+  }
+}
+
+</style>
